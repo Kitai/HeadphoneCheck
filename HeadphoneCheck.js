@@ -50,14 +50,14 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     parseHeadphoneCheckConfig(configData);
     setupHeadphoneCheck();
 
-    $(document).on('hcCalibrationStart', function(event, data) {
+    $(document).bind('hcCalibrationStart', function(event, data) {
       HeadphoneCheck.renderHeadphoneCheckCalibration();
     });
-    $(document).on('hcCalibrationEnd', function(event, data) {
+    $(document).bind('hcCalibrationEnd', function(event, data) {
       $(document).trigger('hcHeadphoneCheckStart', {'data': headphoneCheckData, 'config': headphoneCheckConfig});
     });
 
-    $(document).on('hcHeadphoneCheckStart', function(event, data) {
+    $(document).bind('hcHeadphoneCheckStart', function(event, data) {
       HeadphoneCheck.renderHeadphoneCheckPage();
     });
     // user needs to bind callback to hcHeadphoneCheckEnd event
@@ -92,7 +92,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
       }
     }
 
-    $(document).on('hcLoadStimuliSuccess', parseLoadedStimuli);
+    $(document).bind('hcLoadStimuliSuccess', parseLoadedStimuli);
 
     if (jsonPath === undefined) {
       var data = {'stimuli':[
@@ -168,7 +168,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
         var parentPlayButton = $(event.target).parents().filter('.hc-trial-div').find('button');
 
         // if the play button isn't disabled, it hasn't been played, so show a warning
-        if (!$(parentPlayButton).prop('disabled')) {
+        if (!$(parentPlayButton).attr('disabled')) {
           $(parentPlayButton).parent().css('border', '3px solid ' + warningColor);
           event.preventDefault();
         }
@@ -425,7 +425,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     disableClick('hc-play-button-' + stimID);
     var stimFile = 'hc-audio-' + stimID;
     // set onended callback
-    $('#' + stimFile).on('ended', function() {
+    $('#' + stimFile).bind('ended', function() {
       // reset playback state
       st_isPlaying = false;
       // activate responses
@@ -450,7 +450,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
    * @return {undefined}
    */
   function disableClick(buttonID) {
-    $('#' + buttonID).prop('disabled', true);
+    $('#' + buttonID).attr('disabled', true);
   }
 
   /**
@@ -461,10 +461,10 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
    * @return {undefined}
    */
   function playCalibration(calibrationID) {
-    $('#' + calibrationID).on('ended', function() {
+    $('#' + calibrationID).bind('ended', function() {
       // reset playback state
       st_isPlaying = false;
-      $('#hc-calibration-continue-button').prop('disabled', false);
+      $('#hc-calibration-continue-button').attr('disabled', false);
     });
     $('#' + calibrationID).get(0).play();
     st_isPlaying = true;
